@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BingImageViewer</string>
+    <string name="search_empty_message">Please enter a search string</string>
 </resources>
