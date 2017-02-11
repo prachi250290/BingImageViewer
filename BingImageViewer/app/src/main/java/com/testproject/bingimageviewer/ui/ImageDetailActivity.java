@@ -2,11 +2,13 @@ package com.testproject.bingimageviewer.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -18,6 +20,9 @@ import com.testproject.bingimageviewer.Constants;
 import com.testproject.bingimageviewer.R;
 
 import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class ImageDetailActivity extends Activity implements View.OnClickListener{
 
@@ -71,6 +76,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
                 showCategoryPicker();
                 break;
             case R.id.image_detail_date_textView:
+                showDatePicker();
                 break;
             case R.id.image_detail_button_submit:
                 break;
@@ -91,6 +97,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         dialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                isCategorySelected = true;
                 int pos = picker.getValue();
                 String selectedCategory = categories[pos];
                 categoryTextView.setText(selectedCategory);
@@ -106,4 +113,29 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         alertDialog.show();
 
     }
+
+
+    private void showDatePicker() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(ImageDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                dateTextView.setText(String.format("%02d", monthOfYear+1) + "/" + String.format("%02d", dayOfMonth) + "/" + year);
+                long date = getDate(year, monthOfYear, dayOfMonth);
+                isDateSelected = true;
+            }
+        }, getCalender().get(Calendar.YEAR), getCalender().get(Calendar.MONTH), getCalender().get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    private Calendar getCalender() {
+        return Calendar.getInstance();
+    }
+
+    private long getDate(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        return calendar.getTimeInMillis();
+    }
+
 }
