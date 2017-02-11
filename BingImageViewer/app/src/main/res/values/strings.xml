@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">BingImageViewer</string>
     <string name="search_empty_message">Please enter a search string</string>
+
+
+    <string name="image_detail_category">Category</string>
+    <string name="image_detail_brand">Brand</string>
+    <string name="image_detail_price">Price</string>
+    <string name="image_detail_date">Date</string>
+    <string name="image_detail_text_submit">Submit</string>
+
+
 </resources>
