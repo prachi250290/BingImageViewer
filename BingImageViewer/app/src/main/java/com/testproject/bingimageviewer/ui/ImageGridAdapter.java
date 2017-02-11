@@ -41,7 +41,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         return imageDetailList.size();
     }
 
-    public void setPropertyList(List<ImageDetail> imageDetails) {
+    public void setImageList(List<ImageDetail> imageDetails) {
         this.imageDetailList = imageDetails;
     }
 

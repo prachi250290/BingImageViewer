@@ -44,6 +44,15 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private int offset = Constants.QUERY_PARAM_DEFAULT_OFFSET;
+    private int nextOffsetAddCount = Constants.QUERY_PARAM_NEXT_OFFSET_ADD_COUNT_DEFAULT;
+
+    private boolean isLastPage = false;
+    private boolean isLoading = false;
+
+    private static int IMAGE_PAGE_SIZE = Constants.QUERY_PARAM_COUNT_VALUE;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(imageGridAdapter);
+        recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -91,6 +101,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
 
     private void searchImages() {
         if(validateSearchField()) {
+            imageDetailList.clear();
             getImagesFromServer();
          }
          else {
@@ -112,10 +123,16 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
         ApiInterface apiService =
                 ApiClient.getClient(headers).create(ApiInterface.class);
 
+        isLoading = true;
+
+        int offSetWithNextOffsetAddCount = offset + nextOffsetAddCount;
 
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(Constants.QUERY_PARAM_SEARCH_QUERY, String.valueOf(searchView.getQuery()));
         queryMap.put(Constants.QUERY_PARAM_ASPECT, Constants.QUERY_PARAM_SQUARE);
+        queryMap.put(Constants.QUERY_PARAM_COUNT, String.valueOf(Constants.QUERY_PARAM_COUNT_VALUE));
+        queryMap.put(Constants.QUERY_PARAM_OFFSET, String.valueOf(offSetWithNextOffsetAddCount));
+
 
 
         Call<SearchResult> call = apiService.searchImages(queryMap);
@@ -123,13 +140,25 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
                 //Utility.hideProgressDialog();
+
+                isLoading = false;
+
                 if (response != null) {
                     if (response.isSuccessful()) {
 
                         SearchResult searchResult = response.body();
-                        imageDetailList.addAll(searchResult.getImageList());
-                        imageGridAdapter.setPropertyList(imageDetailList);
+                        List<ImageDetail> imageDetails = searchResult.getImageList();
+                        imageDetailList.addAll(imageDetails);
+                        imageGridAdapter.setImageList(imageDetailList);
                         imageGridAdapter.notifyDataSetChanged();
+
+                        offset = offset + IMAGE_PAGE_SIZE;
+                        nextOffsetAddCount = searchResult.getNextOffsetAddCount();
+
+
+                        if (imageDetails.size() < IMAGE_PAGE_SIZE) {
+                            isLastPage = true;
+                        }
 
 
                     } else {
@@ -151,6 +180,32 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
     private void showValidationAlert() {
         Common.showAlertWithMessage(this, "", getString(R.string.search_empty_message));
     }
+
+
+    private RecyclerView.OnScrollListener
+            recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView,
+                                         int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            if (!isLoading && !isLastPage) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= IMAGE_PAGE_SIZE) {
+                    getImagesFromServer();
+                }
+            }
+        }
+    };
 
 
 

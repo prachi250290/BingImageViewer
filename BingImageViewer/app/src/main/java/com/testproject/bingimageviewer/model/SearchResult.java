@@ -13,6 +13,8 @@ public class SearchResult {
     @SerializedName("value")
     private ArrayList<ImageDetail> imageList;
 
+    private int nextOffsetAddCount;
+
     public ArrayList<ImageDetail> getImageList() {
         return imageList;
     }
@@ -20,4 +22,14 @@ public class SearchResult {
     public void setImageList(ArrayList<ImageDetail> imageList) {
         this.imageList = imageList;
     }
+
+
+    public int getNextOffsetAddCount() {
+        return nextOffsetAddCount;
+    }
+
+    public void setNextOffsetAddCount(int nextOffsetAddCount) {
+        this.nextOffsetAddCount = nextOffsetAddCount;
+    }
+
 }
