@@ -35,6 +35,8 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
 
     private boolean isCategorySelected, isDateSelected;
 
+    private ImageInfo imageInfo;
+
     private String[] categories = new String[] { "Art", "Automobiles", "Books", "Films", "Food" , "Photography", "Places", "Travel"};
 
     @Override
@@ -66,6 +68,8 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         String imageUrl = getIntent().getExtras().getString(Constants.INTENT_KEY_IMAGE_URL);
         Picasso.with(this).load(imageUrl).into(imageView);
 
+        imageInfo.setContentUrl(imageUrl);
+        imageInfo.setImageId(imageId);
     }
 
 
@@ -79,6 +83,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
                 showDatePicker();
                 break;
             case R.id.image_detail_button_submit:
+                saveImageInfo();
                 break;
         }
     }
@@ -101,6 +106,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
                 int pos = picker.getValue();
                 String selectedCategory = categories[pos];
                 categoryTextView.setText(selectedCategory);
+                imageInfo.setDate(selectedCategory);
             }
         });
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -122,6 +128,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
 
                 dateTextView.setText(String.format("%02d", monthOfYear+1) + "/" + String.format("%02d", dayOfMonth) + "/" + year);
                 long date = getDate(year, monthOfYear, dayOfMonth);
+                imageInfo.setDate(date);
                 isDateSelected = true;
             }
         }, getCalender().get(Calendar.YEAR), getCalender().get(Calendar.MONTH), getCalender().get(Calendar.DAY_OF_MONTH));
@@ -136,6 +143,13 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
         return calendar.getTimeInMillis();
+    }
+
+    private void  saveImageInfo() {
+
+        imageInfo.setBrand(brandEditText.getText().toString());
+        imageInfo.setPrice(Float.parseFloat(priceEditText.getText().toString()));
+        WebServiceRepository.getSharedInstance(this).saveImageInfo(imageInfo);
     }
 
 }
