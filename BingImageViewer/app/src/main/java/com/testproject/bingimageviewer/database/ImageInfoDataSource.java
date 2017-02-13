@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.testproject.bingimageviewer.model.ImageInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,12 +77,12 @@ public class ImageInfoDataSource {
 
     private ImageInfo cursorToImageInfo(Cursor cursor) {
         ImageInfo imageInfo = new ImageInfo();
-        imageInfo.setImageId(cursor.getString(0));
-        imageInfo.setUrl(cursor.getString(1));
-        imageInfo.setCategory(cursor.getString(2));
-        imageInfo.setBrand(cursor.getString(3));
-        imageInfo.setPrice(cursor.getFloat(4));
-        imageInfo.setDate(cursor.getLong(5));
+        imageInfo.setImageId(cursor.getString(1));
+        imageInfo.setUrl(cursor.getString(2));
+        imageInfo.setCategory(cursor.getString(3));
+        imageInfo.setBrand(cursor.getString(4));
+        imageInfo.setPrice(Float.parseFloat(cursor.getString(5)));
+        imageInfo.setDate(Long.parseLong(cursor.getString(6)));
         return imageInfo;
     }
 
