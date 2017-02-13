@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -36,11 +38,11 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
 
     private String imageId;
 
-    private boolean isCategorySelected, isDateSelected;
+    private boolean isCategorySelected, isDateSelected, isBrandEntered, isPriceEntered;
 
     private ImageInfo imageInfo;
 
-    private String[] categories = new String[] { "Art", "Automobiles", "Books", "Films", "Food" , "Photography", "Places", "Travel"};
+    private String[] categories = new String[] { "Art", "Automobiles", "Books", "Films", "Food" , "Photography", "Places", "Shopping", "Travel"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,11 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         categoryTextView.setOnClickListener(this);
         dateTextView.setOnClickListener(this);
         submitButton.setOnClickListener(this);
+
+        //Add text watchers
+        brandEditText.addTextChangedListener(new TextWatcherForDetails(brandEditText));
+        priceEditText.addTextChangedListener(new TextWatcherForDetails(priceEditText));
+
     }
 
     private void populateData() {
@@ -111,6 +118,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
                 String selectedCategory = categories[pos];
                 categoryTextView.setText(selectedCategory);
                 imageInfo.setCategory(selectedCategory);
+                validateFields();
             }
         });
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -134,6 +142,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
                 long date = getDate(year, monthOfYear, dayOfMonth);
                 imageInfo.setDate(date);
                 isDateSelected = true;
+                validateFields();
             }
         }, getCalender().get(Calendar.YEAR), getCalender().get(Calendar.MONTH), getCalender().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
@@ -162,5 +171,55 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
             Toast.makeText(this, getString(R.string.record_saved_msg), Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    private void validateFields() {
+        if(isFormValid()) {
+            submitButton.setEnabled(true);
+        }
+        else {
+            submitButton.setEnabled(false);
+        }
+    }
+
+    private boolean isFormValid() {
+        if(isDateSelected && isCategorySelected && isBrandEntered && isPriceEntered) {
+            return true;
+        }
+        return false;
+    }
+
+
+    private class TextWatcherForDetails implements TextWatcher {
+
+        private EditText editTextAssignedTo;
+
+        public TextWatcherForDetails(EditText editText) {
+            this.editTextAssignedTo = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            switch (this.editTextAssignedTo.getId()) {
+                case R.id.image_detail_editText_brand:
+                    isBrandEntered = s.toString().trim().equals("") ? false :true;
+                    break;
+                case R.id.image_detail_editText_price:
+                    isPriceEntered = s.toString().trim().equals("") ? false :true;
+                    break;
+            }
+            validateFields();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    }
+
 
 }

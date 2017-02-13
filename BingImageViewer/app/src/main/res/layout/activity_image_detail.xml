@@ -20,7 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/image_detail_text_submit" />
+        android:text="@string/image_detail_text_submit"
+        android:background="@drawable/drawable_btn_bg"
+        android:enabled="false"/>
 
 
     <LinearLayout
