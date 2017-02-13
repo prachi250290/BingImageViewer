@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.testproject.bingimageviewer.model.ImageInfo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,6 +51,7 @@ public class ImageInfoDataSource {
         values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_PRICE, imageInfo.getPrice());
         values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_DATE, imageInfo.getDate());
 
+        //Insert values into DB
         long insertId = database.insert(BingSQLiteHelper.TABLE_NAME, null,
                 values);
         return insertId;

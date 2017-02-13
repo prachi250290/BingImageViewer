@@ -1,15 +1,12 @@
 package com.testproject.bingimageviewer.ui;
 
 import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
@@ -53,7 +50,8 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         final ImageDetail imageDetail = imageDetailList.get(position);
-        Picasso.with(context).load(imageDetail.getContentUrl()).into(holder.image);
+
+        Picasso.with(context).load(imageDetail.getContentUrl()).into(holder.image); // Load image
 
     }
 
@@ -67,7 +65,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
             image = (ImageView) view.findViewById(R.id.resultImageView);
 
             //Set image size
-            int imageSize = getImageSize(image);
+            int imageSize = getImageSize();
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(imageSize, imageSize);
             params.setMargins(1,1,1,1);
             image.setLayoutParams(params);
@@ -75,7 +73,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         }
     }
 
-    private int getImageSize(ImageView imageView) {
+    private int getImageSize() {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int width = displayMetrics.widthPixels;
         return width/3;

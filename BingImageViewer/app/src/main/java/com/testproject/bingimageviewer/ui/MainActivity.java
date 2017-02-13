@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.testproject.bingimageviewer.Common;
 import com.testproject.bingimageviewer.Constants;
 import com.testproject.bingimageviewer.R;
 import com.testproject.bingimageviewer.manager.WebServiceManager;
@@ -68,8 +67,8 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
         searchView =(SearchView) findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(this);
 
+        //Set layout snd listeners to recycler view
         recyclerView = (RecyclerView) findViewById(R.id.imageGridView);
-
         imageGridAdapter = new ImageGridAdapter(imageDetailList, this);
         mLayoutManager = new GridLayoutManager(this, Constants.GRID_NUMBER_OF_COLUMNS);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -126,6 +125,8 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
 
         int offSetWithNextOffsetAddCount = offset + nextOffsetAddCount;
 
+
+        //Define query params hashmap
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put(Constants.QUERY_PARAM_SEARCH_QUERY, String.valueOf(searchView.getQuery()));
         queryMap.put(Constants.QUERY_PARAM_ASPECT, Constants.QUERY_PARAM_SQUARE);
@@ -138,7 +139,6 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
         call.enqueue(new Callback<SearchResult>() {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
-                //Utility.hideProgressDialog();
 
                 isLoading = false;
 
@@ -148,6 +148,8 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
                         SearchResult searchResult = response.body();
                         List<ImageDetail> imageDetails = searchResult.getImageList();
                         imageDetailList.addAll(imageDetails);
+
+                        //Set images to adapter
                         imageGridAdapter.setImageList(imageDetailList);
                         imageGridAdapter.notifyDataSetChanged();
 
@@ -155,6 +157,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
                         nextOffsetAddCount = searchResult.getNextOffsetAddCount();
 
 
+                        //If the number of records fetched are less than the max limit
                         if (imageDetails.size() < IMAGE_PAGE_SIZE) {
                             isLastPage = true;
                         }
@@ -169,7 +172,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
 
             @Override
             public void onFailure(Call<SearchResult> call, Throwable t) {
-                //Utility.hideProgressDialog();
+
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
             }

@@ -20,7 +20,6 @@ public class Constants {
     public static final int QUERY_PARAM_DEFAULT_OFFSET = 0;
     public static final int QUERY_PARAM_NEXT_OFFSET_ADD_COUNT_DEFAULT = 0;
 
-
     public static final int GRID_NUMBER_OF_COLUMNS = 3;
 
     public static final String INTENT_KEY_IMAGE_ID = "imageId";

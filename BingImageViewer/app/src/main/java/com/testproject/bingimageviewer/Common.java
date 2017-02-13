@@ -9,10 +9,7 @@ import android.content.Context;
 
 public class Common {
 
-    /*
-    Show Alert
-    @param message
-     */
+    //Show alert
     public static void showAlertWithMessage(Context context, String messageTitle, String alertMessage){
 
         new AlertDialog.Builder(context)
