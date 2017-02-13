@@ -1,32 +1,32 @@
 package com.testproject.bingimageviewer.model;
 
 /**
- * Created by prachi on 12/02/17.
+ * Created by prachi on 11/02/17.
  */
 
 public class ImageInfo {
 
-    private String imageId;
-    private String contentUrl;
+    private String url;
+    private long date;
     private String brand;
     private float price;
     private String category;
-    private String date;
+    private String imageId;
 
-    public String getImageId() {
-        return imageId;
+    public String getUrl() {
+        return url;
     }
 
-    public void setImageId(String imageId) {
-        this.imageId = imageId;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getContentUrl() {
-        return contentUrl;
+    public long getDate() {
+        return date;
     }
 
-    public void setContentUrl(String contentUrl) {
-        this.contentUrl = contentUrl;
+    public void setDate(long date) {
+        this.date = date;
     }
 
     public String getBrand() {
@@ -53,11 +53,11 @@ public class ImageInfo {
         this.category = category;
     }
 
-    public String getDate() {
-        return date;
+    public String getImageId() {
+        return imageId;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
     }
 }

@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.testproject.bingimageviewer.Constants;
 import com.testproject.bingimageviewer.R;
+import com.testproject.bingimageviewer.model.ImageInfo;
+import com.testproject.bingimageviewer.repository.ImageInfoRepository;
 
 import org.w3c.dom.Text;
 
@@ -68,7 +70,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         String imageUrl = getIntent().getExtras().getString(Constants.INTENT_KEY_IMAGE_URL);
         Picasso.with(this).load(imageUrl).into(imageView);
 
-        imageInfo.setContentUrl(imageUrl);
+        imageInfo.setUrl(imageUrl);
         imageInfo.setImageId(imageId);
     }
 
@@ -106,7 +108,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
                 int pos = picker.getValue();
                 String selectedCategory = categories[pos];
                 categoryTextView.setText(selectedCategory);
-                imageInfo.setDate(selectedCategory);
+                imageInfo.setCategory(selectedCategory);
             }
         });
         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -149,7 +151,9 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
 
         imageInfo.setBrand(brandEditText.getText().toString());
         imageInfo.setPrice(Float.parseFloat(priceEditText.getText().toString()));
-        WebServiceRepository.getSharedInstance(this).saveImageInfo(imageInfo);
+
+        ImageInfoRepository imageInfoRepository = new ImageInfoRepository(this);
+        imageInfoRepository.saveImageInfo(imageInfo);
     }
 
 }
