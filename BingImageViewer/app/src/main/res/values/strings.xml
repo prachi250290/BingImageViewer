@@ -9,6 +9,7 @@
     <string name="image_detail_date">Date</string>
     <string name="image_detail_text_submit">Submit</string>
     <string name="image_detail_select_category">Select a category</string>
+    <string name="search_view_hint">Enter search string here</string>
 
 
 </resources>
