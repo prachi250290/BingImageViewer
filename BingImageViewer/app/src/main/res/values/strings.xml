@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BingImageViewer</string>
     <string name="search_empty_message">Please enter a search string</string>
+    <string name="search_view_hint">Enter search string here</string>
 
 
     <string name="image_detail_category">Category</string>
@@ -9,7 +10,8 @@
     <string name="image_detail_date">Date</string>
     <string name="image_detail_text_submit">Submit</string>
     <string name="image_detail_select_category">Select a category</string>
-    <string name="search_view_hint">Enter search string here</string>
+
+    <string name="record_saved_msg">Record saved to database</string>
 
 
 </resources>

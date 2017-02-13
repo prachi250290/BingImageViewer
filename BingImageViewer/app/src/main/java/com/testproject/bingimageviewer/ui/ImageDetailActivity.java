@@ -155,15 +155,12 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         imageInfo.setPrice(Float.parseFloat(priceEditText.getText().toString()));
 
         ImageInfoRepository imageInfoRepository = new ImageInfoRepository(this);
-        imageInfoRepository.saveImageInfo(imageInfo);
+        long insertId = imageInfoRepository.saveImageInfo(imageInfo);
+
+        //If the insert operation succeds
+        if(insertId != -1) {
+            Toast.makeText(this, getString(R.string.record_saved_msg), Toast.LENGTH_SHORT).show();
+        }
     }
 
-    @Override
-    public void onBackPressed() {
-
-        ImageInfoRepository imageInfoRepository = new ImageInfoRepository(this);
-        List<ImageInfo> imageInfos = imageInfoRepository.getImageInfo();
-        System.out.print("" +imageInfos);
-        super.onBackPressed();
-    }
 }
