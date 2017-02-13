@@ -109,19 +109,9 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
     }
 
     private void searchImages() {
-        if(validateSearchField()) {
-            imageDetailList.clear();
-            getImagesFromServer();
-         }
-         else {
-           showValidationAlert();
-        }
-    }
+          imageDetailList.clear();
+          getImagesFromServer();
 
-    private boolean validateSearchField() {
-        if(searchView.getQuery() != null || searchView.getQuery().equals(""))
-            return true;
-        return false;
     }
 
 
@@ -185,11 +175,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
             }
         });
     }
-
-    private void showValidationAlert() {
-        Common.showAlertWithMessage(this, "", getString(R.string.search_empty_message));
-    }
-
+    
 
     private RecyclerView.OnScrollListener
             recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
