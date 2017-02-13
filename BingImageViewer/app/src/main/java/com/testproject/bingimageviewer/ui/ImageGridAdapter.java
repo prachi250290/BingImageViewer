@@ -1,11 +1,16 @@
 package com.testproject.bingimageviewer.ui;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 import com.testproject.bingimageviewer.R;
@@ -61,6 +66,18 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
             super(view);
             image = (ImageView) view.findViewById(R.id.resultImageView);
 
+            //Set image size
+            int imageSize = getImageSize(image);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(imageSize, imageSize);
+            params.setMargins(1,1,1,1);
+            image.setLayoutParams(params);
+
         }
+    }
+
+    private int getImageSize(ImageView imageView) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int width = displayMetrics.widthPixels;
+        return width/3;
     }
 }

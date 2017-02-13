@@ -2,6 +2,7 @@ package com.testproject.bingimageviewer.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -78,7 +79,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
+                openImageDetailScreen(imageDetailList.get(position));
             }
 
             @Override
@@ -86,6 +87,14 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
 
             }
         }));
+    }
+
+    private void openImageDetailScreen(ImageDetail imageDetail) {
+        Intent imageDetailIntent = new Intent(MainActivity.this, ImageDetailActivity.class);
+        imageDetailIntent.putExtra(Constants.INTENT_KEY_IMAGE_ID, imageDetail.getImageId());
+        imageDetailIntent.putExtra(Constants.INTENT_KEY_IMAGE_URL, imageDetail.getContentUrl());
+        startActivity(imageDetailIntent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override
@@ -100,19 +109,9 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
     }
 
     private void searchImages() {
-        if(validateSearchField()) {
-            imageDetailList.clear();
-            getImagesFromServer();
-         }
-         else {
-           showValidationAlert();
-        }
-    }
+          imageDetailList.clear();
+          getImagesFromServer();
 
-    private boolean validateSearchField() {
-        if(searchView.getQuery() != null || searchView.getQuery().equals(""))
-            return true;
-        return false;
     }
 
 
@@ -176,11 +175,7 @@ public class MainActivity extends Activity implements SearchView.OnQueryTextList
             }
         });
     }
-
-    private void showValidationAlert() {
-        Common.showAlertWithMessage(this, "", getString(R.string.search_empty_message));
-    }
-
+    
 
     private RecyclerView.OnScrollListener
             recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
