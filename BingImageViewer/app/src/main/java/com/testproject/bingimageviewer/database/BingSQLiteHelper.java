@@ -10,7 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class BingSQLiteHelper extends SQLiteOpenHelper{
 
+    //Table name
     public static final String TABLE_NAME = "ImageTable";
+
+    //Column names
     public static final String COLUMN_NAME_IMAGE_ID = "imageid";
     public static final String COLUMN_NAME_IMAGE_URL = "imageurl";
     public static final String COLUMN_NAME_IMAGE_CATEGORY = "category";
@@ -20,11 +23,12 @@ public class BingSQLiteHelper extends SQLiteOpenHelper{
     public static final String COLUMN_ID = "_id";
 
 
+    //DB info
     private static final String DATABASE_NAME = "imagedatabase.db";
     private static final int DATABASE_VERSION = 1;
 
     // Database creation sql statement
-    private static final String DATABASE_CREATE = "create table "
+    private static final String DATABASE_CREATE = "create table if not exists "
             + TABLE_NAME + "( " + COLUMN_ID
             + " integer primary key autoincrement, "
             + COLUMN_NAME_IMAGE_ID + " text ,"

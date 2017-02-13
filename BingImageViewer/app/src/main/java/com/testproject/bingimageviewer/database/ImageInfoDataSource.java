@@ -51,6 +51,7 @@ public class ImageInfoDataSource {
         values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_PRICE, imageInfo.getPrice());
         values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_DATE, imageInfo.getDate());
 
+        //Insert values into DB
         long insertId = database.insert(BingSQLiteHelper.TABLE_NAME, null,
                 values);
         return insertId;

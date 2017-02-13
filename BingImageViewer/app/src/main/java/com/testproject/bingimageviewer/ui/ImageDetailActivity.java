@@ -59,6 +59,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         dateTextView = (TextView) findViewById(R.id.image_detail_date_textView);
         submitButton = (Button) findViewById(R.id.image_detail_button_submit);
 
+        //Set on click listeners
         categoryTextView.setOnClickListener(this);
         dateTextView.setOnClickListener(this);
         submitButton.setOnClickListener(this);
@@ -70,9 +71,11 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
     }
 
     private void populateData() {
+        //Get info from intent
         imageId = getIntent().getExtras().getString(Constants.INTENT_KEY_IMAGE_ID);
-
         String imageUrl = getIntent().getExtras().getString(Constants.INTENT_KEY_IMAGE_URL);
+
+        //Load the image
         Picasso.with(this).load(imageUrl).into(imageView);
 
         imageInfo = new ImageInfo();
@@ -100,13 +103,22 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(ImageDetailActivity.this);
         LayoutInflater inflater = this.getLayoutInflater();
+
+        //Set the view to the dialog
         View dialogView = inflater.inflate(R.layout.number_picker_dialog, null);
-        dialog.setTitle(getString(R.string.image_detail_select_category));
         dialog.setView(dialogView);
+
+        //Set title
+        dialog.setTitle(getString(R.string.image_detail_select_category));
+
+        //Set values to the number picker
         final NumberPicker picker = (NumberPicker) dialogView.findViewById(R.id.dialog_number_picker);
         picker.setMinValue(0);
         picker.setMaxValue(categories.length - 1);
         picker.setDisplayedValues(categories);
+
+
+        //Set buttons to the alert dialog
         dialog.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -124,6 +136,9 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
 
             }
         });
+
+
+        //create and show the dialog
         AlertDialog alertDialog = dialog.create();
         alertDialog.show();
 
@@ -135,8 +150,8 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                dateTextView.setText(String.format("%02d", monthOfYear+1) + "/" + String.format("%02d", dayOfMonth) + "/" + year);
-                long date = getDate(year, monthOfYear, dayOfMonth);
+                dateTextView.setText(String.format("%02d", monthOfYear+1) + "/" + String.format("%02d", dayOfMonth) + "/" + year); //Format and set the value to textview
+                long date = getDate(year, monthOfYear, dayOfMonth); //convert date into millis
                 imageInfo.setDate(date);
                 isDateSelected = true;
                 validateFields();
@@ -161,7 +176,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         imageInfo.setPrice(Float.parseFloat(priceEditText.getText().toString()));
 
         ImageInfoRepository imageInfoRepository = new ImageInfoRepository(this);
-        long insertId = imageInfoRepository.saveImageInfo(imageInfo);
+        long insertId = imageInfoRepository.saveImageInfo(imageInfo); //Perform save
 
         //If the insert operation succeds
         if(insertId != -1) {
@@ -170,6 +185,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
     }
 
 
+    //enables the submit button if the fields are valid, disables otherwise
     private void validateFields() {
         if(isFormValid()) {
             submitButton.setEnabled(true);
@@ -179,6 +195,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         }
     }
 
+    //Check if all fields are valid
     private boolean isFormValid() {
         if(isDateSelected && isCategorySelected && isBrandEntered && isPriceEntered) {
             return true;
@@ -187,6 +204,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
     }
 
 
+    //text watcher for edit texts
     private class TextWatcherForDetails implements TextWatcher {
 
         private EditText editTextAssignedTo;

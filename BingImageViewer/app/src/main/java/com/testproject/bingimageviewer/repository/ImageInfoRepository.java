@@ -30,6 +30,8 @@ public class ImageInfoRepository {
         return imageInfoList;
     }
 
+
+    //Save the image information into database
     public long saveImageInfo (ImageInfo info) {
         datasource.open();
         long insertID = datasource.saveImageInfo(info);
