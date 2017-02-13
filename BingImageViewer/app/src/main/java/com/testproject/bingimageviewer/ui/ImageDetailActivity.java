@@ -25,6 +25,7 @@ import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ImageDetailActivity extends Activity implements View.OnClickListener{
 
@@ -70,6 +71,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         String imageUrl = getIntent().getExtras().getString(Constants.INTENT_KEY_IMAGE_URL);
         Picasso.with(this).load(imageUrl).into(imageView);
 
+        imageInfo = new ImageInfo();
         imageInfo.setUrl(imageUrl);
         imageInfo.setImageId(imageId);
     }
@@ -156,4 +158,12 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
         imageInfoRepository.saveImageInfo(imageInfo);
     }
 
+    @Override
+    public void onBackPressed() {
+
+        ImageInfoRepository imageInfoRepository = new ImageInfoRepository(this);
+        List<ImageInfo> imageInfos = imageInfoRepository.getImageInfo();
+        System.out.print("" +imageInfos);
+        super.onBackPressed();
+    }
 }

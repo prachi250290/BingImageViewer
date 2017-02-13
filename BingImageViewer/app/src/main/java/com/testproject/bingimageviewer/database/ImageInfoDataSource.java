@@ -44,7 +44,13 @@ public class ImageInfoDataSource {
 
     public long saveImageInfo(ImageInfo imageInfo) {
         ContentValues values = new ContentValues();
+        values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_ID, imageInfo.getImageId());
+        values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_URL, imageInfo.getUrl());
+        values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_CATEGORY, imageInfo.getCategory());
         values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_BRAND, imageInfo.getBrand());
+        values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_PRICE, imageInfo.getPrice());
+        values.put(BingSQLiteHelper.COLUMN_NAME_IMAGE_DATE, imageInfo.getDate());
+
         long insertId = database.insert(BingSQLiteHelper.TABLE_NAME, null,
                 values);
         return insertId;
@@ -71,6 +77,11 @@ public class ImageInfoDataSource {
     private ImageInfo cursorToImageInfo(Cursor cursor) {
         ImageInfo imageInfo = new ImageInfo();
         imageInfo.setImageId(cursor.getString(0));
+        imageInfo.setUrl(cursor.getString(1));
+        imageInfo.setCategory(cursor.getString(2));
+        imageInfo.setBrand(cursor.getString(3));
+        imageInfo.setPrice(cursor.getFloat(4));
+        imageInfo.setDate(cursor.getLong(5));
         return imageInfo;
     }
 

@@ -27,12 +27,12 @@ public class BingSQLiteHelper extends SQLiteOpenHelper{
     private static final String DATABASE_CREATE = "create table "
             + TABLE_NAME + "( " + COLUMN_ID
             + " integer primary key autoincrement, "
-            + COLUMN_NAME_IMAGE_ID + " text not null"
-            + COLUMN_NAME_IMAGE_URL + " text not null"
-            + COLUMN_NAME_IMAGE_CATEGORY + " text not null"
-            + COLUMN_NAME_IMAGE_BRAND + " text not null"
-            + COLUMN_NAME_IMAGE_PRICE + " real not null"
-            + COLUMN_NAME_IMAGE_DATE + " integer not null"
+            + COLUMN_NAME_IMAGE_ID + " text ,"
+            + COLUMN_NAME_IMAGE_URL + " text , "
+            + COLUMN_NAME_IMAGE_CATEGORY + " text , "
+            + COLUMN_NAME_IMAGE_BRAND + " text , "
+            + COLUMN_NAME_IMAGE_PRICE + " real , "
+            + COLUMN_NAME_IMAGE_DATE + " integer  "
             +");";
 
     public BingSQLiteHelper(Context context) {
