@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.testproject.bingimageviewer.model.ImageInfo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

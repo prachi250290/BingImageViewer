@@ -18,16 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.testproject.bingimageviewer.Common;
 import com.testproject.bingimageviewer.Constants;
 import com.testproject.bingimageviewer.R;
 import com.testproject.bingimageviewer.model.ImageInfo;
 import com.testproject.bingimageviewer.repository.ImageInfoRepository;
 
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class ImageDetailActivity extends Activity implements View.OnClickListener{
 
@@ -168,7 +165,7 @@ public class ImageDetailActivity extends Activity implements View.OnClickListene
 
         //If the insert operation succeds
         if(insertId != -1) {
-            Toast.makeText(this, getString(R.string.record_saved_msg), Toast.LENGTH_SHORT).show();
+            Common.showAlertWithMessage(this, "", getString(R.string.record_saved_msg));
         }
     }
 

@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.testproject.bingimageviewer.Common;
 import com.testproject.bingimageviewer.Constants;
 import com.testproject.bingimageviewer.R;
 import com.testproject.bingimageviewer.manager.WebServiceManager;
